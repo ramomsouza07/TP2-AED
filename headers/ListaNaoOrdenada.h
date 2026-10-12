@@ -21,6 +21,10 @@ public:
     Elemento* BuscarPeloId(long id) const;
     bool AlterarPeloId(long id, Elemento* novoElemento);
     void imprimirTodos() const;
+    bool Vazia() const;
+    bool Cheia() const;
+    Elemento* ConsultarPrimeiro() const;
+    Elemento* ConsultarUltimo() const;
 };
 
 #endif

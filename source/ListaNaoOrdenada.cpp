@@ -85,3 +85,20 @@ void ListaNaoOrdenada::imprimirTodos() const {
         elementos[i]->imprimirInfo();
     }
 }
+bool ListaNaoOrdenada::Vazia() const {
+    return nElementos == 0;
+}
+
+bool ListaNaoOrdenada::Cheia() const {
+    return nElementos >= capacidade;
+}
+
+Elemento* ListaNaoOrdenada::ConsultarPrimeiro() const {
+    if (nElementos == 0) return nullptr;
+    return elementos[0];
+}
+
+Elemento* ListaNaoOrdenada::ConsultarUltimo() const {
+    if (nElementos == 0) return nullptr;
+    return elementos[nElementos - 1];
+}
