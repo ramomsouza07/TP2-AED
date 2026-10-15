@@ -9,12 +9,12 @@
 #include "headers/Fila.h"
 #include "headers/FilaCircular.h"
 #include "headers/ListaSimples.h"
-#include "headers/ListaSimples.h"
 #include "headers/ListaDupla.h"
 #include "headers/ListaCircular.h"
 #include "headers/PilhaEnc.h"
 #include "headers/FilaEnc.h"
 #include "headers/Deque.h"
+#include "headers/Arvore.h"
 
 using namespace std;
 
@@ -596,11 +596,88 @@ int main() {
                 }
                 break;
             }
-            case 4:
-                cout << "\n----------------------------------------------------------------------" << endl;
-                cout << "--- ARVORES E GRAFOS (inserir depois!!) ---" << endl;
-                cout << "----------------------------------------------------------------------" << endl;
+            case 4: {
+                Arvore arvore;
+                int opArv = -1;
+                while (opArv != 7) {
+                    cout << "\n--- ARVORE BINARIA DE BUSCA ---" << endl;
+                    cout << "1: Inserir Elemento" << endl;
+                    cout << "2: Remover pelo ID" << endl;
+                    cout << "3: Buscar pelo ID" << endl;
+                    cout << "4: Imprimir Em Ordem" << endl;
+                    cout << "5: Imprimir Pre-Ordem" << endl;
+                    cout << "6: Imprimir Pos-Ordem" << endl;
+                    cout << "7: Voltar" << endl;
+                    cout << "Opcao: ";
+                    cin >> opArv;
+
+                    if (opArv == 1) {
+                        int tipo;
+                        cout << "\n1: Personagem | 2: Equipamento -> Escolha: ";
+                        cin >> tipo;
+
+                        long id;
+                        cout << "Digite o ID unico: ";
+                        cin >> id;
+                        limparBuffer();
+
+                        if (tipo == 1) {
+                            string nome;
+                            int nivel;
+                            cout << "Nome do Personagem: ";
+                            getline(cin, nome);
+                            cout << "Nivel: ";
+                            cin >> nivel;
+                            arvore.insere(new Personagem(id, nome, nivel));
+                            cout << "Personagem inserido na arvore!" << endl;
+                        } else if (tipo == 2) {
+                            string nomeItem;
+                            int dano;
+                            cout << "Nome do Equipamento: ";
+                            getline(cin, nomeItem);
+                            cout << "Dano Base: ";
+                            cin >> dano;
+                            arvore.insere(new Equipamento(id, nomeItem, dano));
+                            cout << "Equipamento inserido na arvore!" << endl;
+                        } else {
+                            cout << "Tipo invalido!" << endl;
+                        }
+                    } else if (opArv == 2) {
+                        long id;
+                        cout << "Digite o ID para remover: ";
+                        cin >> id;
+                        if (arvore.remove(id)) cout << "Elemento removido da arvore!" << endl;
+                        else cout << "ID nao encontrado." << endl;
+                    } else if (opArv == 3) {
+                        long id;
+                        cout << "Digite o ID para buscar: ";
+                        cin >> id;
+                        Elemento* achou = arvore.busca(id);
+                        if (achou != NULL) {
+                            cout << "\n--- Elemento Encontrado ---" << endl;
+                            achou->imprimirInfo();
+                            cout << "---------------------------" << endl;
+                        } else {
+                            cout << "ID nao encontrado." << endl;
+                        }
+                    } else if (opArv == 4) {
+                        cout << "\n--- ARVORE EM ORDEM ---" << endl;
+                        arvore.imprimeEmOrdem();
+                        cout << "-----------------------" << endl;
+                    } else if (opArv == 5) {
+                        cout << "\n--- ARVORE PRE-ORDEM ---" << endl;
+                        arvore.imprimePreOrdem();
+                        cout << "------------------------" << endl;
+                    } else if (opArv == 6) {
+                        cout << "\n--- ARVORE POS-ORDEM ---" << endl;
+                        arvore.imprimePosOrdem();
+                        cout << "------------------------" << endl;
+                    } else if (opArv != 7) {
+                        cout << "Opcao invalida." << endl;
+                    }
+                }
                 break;
+            }
             case 5:
                 cout << "\nEncerrando o programa..." << endl;
                 break;
