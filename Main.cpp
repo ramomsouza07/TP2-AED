@@ -12,6 +12,9 @@
 #include "headers/ListaSimples.h"
 #include "headers/ListaDupla.h"
 #include "headers/ListaCircular.h"
+#include "headers/PilhaEnc.h"
+#include "headers/FilaEnc.h"
+#include "headers/Deque.h"
 
 using namespace std;
 
@@ -295,7 +298,7 @@ int main() {
                     cout << "1: Pilha (sequencial)" << endl;
                     cout << "2: Fila (sequencial, menos eficiente)" << endl;
                     cout << "3: Fila Circular (sequencial, eficiente)" << endl;
-                    cout << "4: Pilha, Fila e Deque (encadeados)  [inserir depois]" << endl;
+                    cout << "4: Pilha, Fila e Deque (encadeados)  " << endl;
                     cout << "5: Voltar" << endl;
                     cout << "Opcao: ";
                     cin >> opcaoPFD;
@@ -525,6 +528,68 @@ int main() {
                             } else if (opFilaCirc == 5) {
                                 if (filaCirc.filaVazia()) cout << "A fila circular esta vazia." << endl;
                                 else cout << "A fila circular nao esta vazia." << endl;
+                            }
+                        }
+                    }
+                    else if (opcaoPFD == 4) {
+                        PilhaEnc pe;
+                        FilaEnc fe;
+                        Deque dq;
+                        int qual, op = 0;
+                        cout << "\nQual estrutura usar? (1: Pilha | 2: Fila | 3: Deque): ";
+                        cin >> qual;
+
+                        while (op != 4) {
+                            cout << "\n1: Inserir | 2: Remover | 3: Imprimir | 4: Voltar\nOpcao: ";
+                            cin >> op;
+
+                            if (op == 1) {
+                                int tipo, valor;
+                                long id;
+                                string nome;
+                                cout << "1: Personagem | 2: Equipamento: ";
+                                cin >> tipo;
+                                if (tipo != 1 && tipo != 2) continue;
+
+                                cout << "ID: "; cin >> id;
+                                limparBuffer();
+                                cout << "Nome: "; getline(cin, nome);
+                                cout << "Nivel/Dano: "; cin >> valor;
+
+                                Elemento* e = NULL;
+                                if (tipo == 1) e = new Personagem(id, nome, valor);
+                                else e = new Equipamento(id, nome, valor);
+
+                                if (qual == 1) pe.empilhar(e);
+                                else if (qual == 2) fe.enfileirar(e);
+                                else {
+                                    int lado;
+                                    cout << "1: Inserir no Inicio | 2: Inserir no Fim: ";
+                                    cin >> lado;
+                                    if (lado == 1) dq.inserirInicio(e);
+                                    else dq.inserirFim(e);
+                                }
+                                cout << "Inserido!" << endl;
+
+                            } else if (op == 2) {
+                                Elemento* r = NULL;
+                                if (qual == 1) r = pe.desempilhar();
+                                else if (qual == 2) r = fe.desenfileirar();
+                                else {
+                                    int lado;
+                                    cout << "1: Remover do Inicio | 2: Remover do Fim: ";
+                                    cin >> lado;
+                                    if (lado == 1) r = dq.removerInicio();
+                                    else r = dq.removerFim();
+                                }
+
+                                if (r != NULL) cout << "Removido!" << endl;
+                                else cout << "Estrutura vazia." << endl;
+
+                            } else if (op == 3) {
+                                if (qual == 1) pe.imprimir();
+                                else if (qual == 2) fe.imprimir();
+                                else dq.imprimir();
                             }
                         }
                     }
