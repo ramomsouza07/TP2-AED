@@ -8,6 +8,10 @@
 #include "headers/Pilha.h"
 #include "headers/Fila.h"
 #include "headers/FilaCircular.h"
+#include "headers/ListaSimples.h"
+#include "headers/ListaSimples.h"
+#include "headers/ListaDupla.h"
+#include "headers/ListaCircular.h"
 
 using namespace std;
 
@@ -201,11 +205,89 @@ int main() {
                 }
                 break;
             }
-            case 2:
-                cout << "\n----------------------------------------------------------------------" << endl;
-                cout << "--- ALOCACAO DINAMICA (inserir depois!!)---" << endl;
-                cout << "----------------------------------------------------------------------" << endl;
+            case 2: {
+                int opDin = 0;
+                while (opDin != 4) {
+                    cout << "\n--- LISTAS ENCADEADAS ---" << endl;
+                    cout << "1: Simples | 2: Dupla | 3: Circular | 4: Voltar\nOpcao: ";
+                    cin >> opDin;
+                    if (opDin < 1 || opDin > 3) break;
+
+                    ListaSimples ls;
+                    ListaDupla ld;
+                    ListaCircular lc;
+
+                    int op = 0;
+                    while (op != 6) {
+                        cout << "\n1: Inserir Inicio | 2: Inserir Fim | 3: Remover ID | 4: Buscar ID | 5: Imprimir | 6: Voltar\nOpcao: ";
+                        cin >> op;
+
+                        if (op == 1 || op == 2) {
+                            int tipo;
+                            cout << "1: Personagem | 2: Equipamento: ";
+                            cin >> tipo;
+                            long id;
+                            cout << "ID: ";
+                            cin >> id;
+                            limparBuffer();
+
+                            Elemento* e = NULL;
+                            if (tipo == 1) {
+                                string nome; int nivel;
+                                cout << "Nome: "; getline(cin, nome);
+                                cout << "Nivel: "; cin >> nivel;
+                                e = new Personagem(id, nome, nivel);
+                            } else if (tipo == 2) {
+                                string nome; int dano;
+                                cout << "Nome: "; getline(cin, nome);
+                                cout << "Dano: "; cin >> dano;
+                                e = new Equipamento(id, nome, dano);
+                            } else continue;
+
+                            if (opDin == 1) {
+                                if (op == 1) ls.insereInicio(e);
+                                else ls.insereFim(e);
+                            } else if (opDin == 2) {
+                                if (op == 1) ld.insereInicio(e);
+                                else ld.insereFim(e);
+                            } else {
+                                lc.insere(e);
+                            }
+                            cout << "Inserido!" << endl;
+
+                        } else if (op == 3) {
+                            long id;
+                            cout << "ID para remover: ";
+                            cin >> id;
+                            bool ok = false;
+                            if (opDin == 1) ok = ls.remove(id);
+                            else if (opDin == 2) ok = ld.remove(id);
+                            else ok = lc.remove(id);
+
+                            if (ok) cout << "Removido!" << endl;
+                            else cout << "ID nao encontrado." << endl;
+
+                        } else if (op == 4) {
+                            long id;
+                            cout << "ID para buscar: ";
+                            cin >> id;
+                            Elemento* achou = NULL;
+                            if (opDin == 1) achou = ls.busca(id);
+                            else if (opDin == 2) achou = ld.busca(id);
+                            else achou = lc.busca(id);
+
+                            if (achou != NULL) achou->imprimirInfo();
+                            else cout << "ID nao encontrado." << endl;
+
+                        } else if (op == 5) {
+                            if (opDin == 1) ls.imprime();
+                            else if (opDin == 2) ld.imprime();
+                            else lc.imprime();
+                        }
+                    }
+                }
                 break;
+            }
             case 3: {
                 int opcaoPFD = -1;
                 while (opcaoPFD != 5) {
