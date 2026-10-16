@@ -15,6 +15,7 @@
 #include "headers/FilaEnc.h"
 #include "headers/Deque.h"
 #include "headers/Arvore.h"
+#include "headers/Grafo.h"
 
 using namespace std;
 
@@ -596,88 +597,283 @@ int main() {
                 }
                 break;
             }
+
             case 4: {
+                int opcaoAG = -1;
                 Arvore arvore;
-                int opArv = -1;
-                while (opArv != 7) {
-                    cout << "\n--- ARVORE BINARIA DE BUSCA ---" << endl;
-                    cout << "1: Inserir Elemento" << endl;
-                    cout << "2: Remover pelo ID" << endl;
-                    cout << "3: Buscar pelo ID" << endl;
-                    cout << "4: Imprimir Em Ordem" << endl;
-                    cout << "5: Imprimir Pre-Ordem" << endl;
-                    cout << "6: Imprimir Pos-Ordem" << endl;
-                    cout << "7: Voltar" << endl;
+                Grafo grafo;
+
+                while (opcaoAG != 3) {
+                    cout << "\n--- ARVORES E GRAFOS ---" << endl;
+                    cout << "1: Arvore Binaria de Busca (BST)" << endl;
+                    cout << "2: Grafo (Lista de Adjacencia)" << endl;
+                    cout << "3: Voltar" << endl;
                     cout << "Opcao: ";
-                    cin >> opArv;
+                    cin >> opcaoAG;
 
-                    if (opArv == 1) {
-                        int tipo;
-                        cout << "\n1: Personagem | 2: Equipamento -> Escolha: ";
-                        cin >> tipo;
+                    switch (opcaoAG) {
+                        case 1: {
+                            int opArvore = -1;
+                            while (opArvore != 7) {
+                                cout << "\n[Arvore Binaria de Busca] Operacoes:" << endl;
+                                cout << "1: Inserir Elemento" << endl;
+                                cout << "2: Remover Elemento pelo ID" << endl;
+                                cout << "3: Buscar Elemento pelo ID" << endl;
+                                cout << "4: Imprimir Em-Ordem" << endl;
+                                cout << "5: Imprimir Pre-Ordem" << endl;
+                                cout << "6: Imprimir Pos-Ordem" << endl;
+                                cout << "7: Voltar" << endl;
+                                cout << "Opcao: ";
+                                cin >> opArvore;
 
-                        long id;
-                        cout << "Digite o ID unico: ";
-                        cin >> id;
-                        limparBuffer();
+                                switch (opArvore) {
+                                    case 1: {
+                                        int tipo;
+                                        cout << "\n1: Personagem | 2: Equipamento -> Escolha: ";
+                                        cin >> tipo;
 
-                        if (tipo == 1) {
-                            string nome;
-                            int nivel;
-                            cout << "Nome do Personagem: ";
-                            getline(cin, nome);
-                            cout << "Nivel: ";
-                            cin >> nivel;
-                            arvore.insere(new Personagem(id, nome, nivel));
-                            cout << "Personagem inserido na arvore!" << endl;
-                        } else if (tipo == 2) {
-                            string nomeItem;
-                            int dano;
-                            cout << "Nome do Equipamento: ";
-                            getline(cin, nomeItem);
-                            cout << "Dano Base: ";
-                            cin >> dano;
-                            arvore.insere(new Equipamento(id, nomeItem, dano));
-                            cout << "Equipamento inserido na arvore!" << endl;
-                        } else {
-                            cout << "Tipo invalido!" << endl;
+                                        long id;
+                                        cout << "Digite o ID unico: ";
+                                        cin >> id;
+                                        limparBuffer();
+
+                                        if (tipo == 1) {
+                                            string nome;
+                                            int nivel;
+                                            cout << "Nome do Personagem: ";
+                                            getline(cin, nome);
+                                            cout << "Nivel: ";
+                                            cin >> nivel;
+
+                                            Personagem* p = new Personagem(id, nome, nivel);
+                                            arvore.insere(p);
+                                            cout << "Personagem inserido na Arvore!" << endl;
+                                        } else if (tipo == 2) {
+                                            string nomeItem;
+                                            int dano;
+                                            cout << "Nome do Equipamento: ";
+                                            getline(cin, nomeItem);
+                                            cout << "Dano Base: ";
+                                            cin >> dano;
+
+                                            Equipamento* eq = new Equipamento(id, nomeItem, dano);
+                                            arvore.insere(eq);
+                                            cout << "Equipamento inserido na Arvore!" << endl;
+                                        } else {
+                                            cout << "Tipo invalido!" << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 2: {
+                                        long id;
+                                        cout << "Digite o ID a ser removido: ";
+                                        cin >> id;
+                                        if (arvore.remove(id)) {
+                                            cout << "Elemento removido da Arvore!" << endl;
+                                        } else {
+                                            cout << "ID nao encontrado na Arvore." << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 3: {
+                                        long id;
+                                        cout << "Digite o ID para buscar: ";
+                                        cin >> id;
+                                        Elemento* achou = arvore.busca(id);
+                                        if (achou != NULL) {
+                                            cout << "\n--- Elemento Encontrado ---" << endl;
+                                            achou->imprimirInfo();
+                                            cout << "---------------------------" << endl;
+                                        } else {
+                                            cout << "ID nao encontrado na Arvore." << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 4:
+                                        cout << "\n--- CONTEUDO DA ARVORE (EM-ORDEM) ---" << endl;
+                                        arvore.imprimeEmOrdem();
+                                        cout << "-------------------------------------" << endl;
+                                        break;
+                                    case 5:
+                                        cout << "\n--- CONTEUDO DA ARVORE (PRE-ORDEM) ---" << endl;
+                                        arvore.imprimePreOrdem();
+                                        cout << "--------------------------------------" << endl;
+                                        break;
+                                    case 6:
+                                        cout << "\n--- CONTEUDO DA ARVORE (POS-ORDEM) ---" << endl;
+                                        arvore.imprimePosOrdem();
+                                        cout << "--------------------------------------" << endl;
+                                        break;
+                                    case 7:
+                                        break;
+                                    default:
+                                        cout << "Opcao invalida." << endl;
+                                }
+                            }
+                            break;
                         }
-                    } else if (opArv == 2) {
-                        long id;
-                        cout << "Digite o ID para remover: ";
-                        cin >> id;
-                        if (arvore.remove(id)) cout << "Elemento removido da arvore!" << endl;
-                        else cout << "ID nao encontrado." << endl;
-                    } else if (opArv == 3) {
-                        long id;
-                        cout << "Digite o ID para buscar: ";
-                        cin >> id;
-                        Elemento* achou = arvore.busca(id);
-                        if (achou != NULL) {
-                            cout << "\n--- Elemento Encontrado ---" << endl;
-                            achou->imprimirInfo();
-                            cout << "---------------------------" << endl;
-                        } else {
-                            cout << "ID nao encontrado." << endl;
+                        case 2: {
+                            int opGrafo = -1;
+                            while (opGrafo != 9) {
+                                cout << "\n[Grafo - Rede de Elementos] Operacoes:" << endl;
+                                cout << "1: Inserir Vertice (Personagem ou Equipamento)" << endl;
+                                cout << "2: Inserir Aresta / Conexao entre dois IDs" << endl;
+                                cout << "3: Remover Aresta / Conexao" << endl;
+                                cout << "4: Remover Vertice pelo ID" << endl;
+                                cout << "5: Buscar Vertice pelo ID" << endl;
+                                cout << "6: Listar Vizinhos de um Vertice" << endl;
+                                cout << "7: Imprimir Grafo Completo" << endl;
+                                cout << "8: Percorrer Grafo (BFS - Largura / DFS - Profundidade)" << endl;
+                                cout << "9: Voltar" << endl;
+                                cout << "Opcao: ";
+                                cin >> opGrafo;
+
+                                switch (opGrafo) {
+                                    case 1: {
+                                        int tipo;
+                                        cout << "\n1: Personagem | 2: Equipamento -> Escolha: ";
+                                        cin >> tipo;
+
+                                        long id;
+                                        cout << "Digite o ID unico: ";
+                                        cin >> id;
+                                        limparBuffer();
+
+                                        if (tipo == 1) {
+                                            string nome;
+                                            int nivel;
+                                            cout << "Nome do Personagem: ";
+                                            getline(cin, nome);
+                                            cout << "Nivel: ";
+                                            cin >> nivel;
+
+                                            Personagem* p = new Personagem(id, nome, nivel);
+                                            if (grafo.insereVertice(p)) {
+                                                cout << "Personagem inserido como vertice no Grafo!" << endl;
+                                            } else {
+                                                cout << "Erro: Vertice com ID " << id << " ja existe." << endl;
+                                                delete p;
+                                            }
+                                        } else if (tipo == 2) {
+                                            string nomeItem;
+                                            int dano;
+                                            cout << "Nome do Equipamento: ";
+                                            getline(cin, nomeItem);
+                                            cout << "Dano Base: ";
+                                            cin >> dano;
+
+                                            Equipamento* eq = new Equipamento(id, nomeItem, dano);
+                                            if (grafo.insereVertice(eq)) {
+                                                cout << "Equipamento inserido como vertice no Grafo!" << endl;
+                                            } else {
+                                                cout << "Erro: Vertice com ID " << id << " ja existe." << endl;
+                                                delete eq;
+                                            }
+                                        } else {
+                                            cout << "Tipo invalido!" << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 2: {
+                                        long idOrig, idDest;
+                                        int peso;
+                                        cout << "Digite o ID de Origem: ";
+                                        cin >> idOrig;
+                                        cout << "Digite o ID de Destino: ";
+                                        cin >> idDest;
+                                        cout << "Digite o Peso/Afinidade da conexao: ";
+                                        cin >> peso;
+
+                                        if (grafo.insereAresta(idOrig, idDest, peso)) {
+                                            cout << "Conexao criada com sucesso entre " << idOrig << " e " << idDest << "!" << endl;
+                                        } else {
+                                            cout << "Erro ao inserir aresta. Verifique se ambos os IDs existem ou se a conexao ja existe." << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 3: {
+                                        long idOrig, idDest;
+                                        cout << "Digite o ID de Origem: ";
+                                        cin >> idOrig;
+                                        cout << "Digite o ID de Destino: ";
+                                        cin >> idDest;
+
+                                        if (grafo.removeAresta(idOrig, idDest)) {
+                                            cout << "Conexao removida com sucesso!" << endl;
+                                        } else {
+                                            cout << "Erro: conexao ou IDs nao encontrados." << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 4: {
+                                        long id;
+                                        cout << "Digite o ID do vertice a remover: ";
+                                        cin >> id;
+                                        if (grafo.removeVertice(id)) {
+                                            cout << "Vertice e todas as suas conexoes foram removidos com sucesso!" << endl;
+                                        } else {
+                                            cout << "Vertice com ID " << id << " nao encontrado no Grafo." << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 5: {
+                                        long id;
+                                        cout << "Digite o ID para buscar: ";
+                                        cin >> id;
+                                        Elemento* elem = grafo.buscaVertice(id);
+                                        if (elem != NULL) {
+                                            cout << "\n--- Vertice Encontrado ---" << endl;
+                                            elem->imprimirInfo();
+                                            cout << "--------------------------" << endl;
+                                        } else {
+                                            cout << "Vertice com ID " << id << " nao encontrado no Grafo." << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 6: {
+                                        long id;
+                                        cout << "Digite o ID do vertice para ver seus vizinhos: ";
+                                        cin >> id;
+                                        grafo.imprimeVizinhos(id);
+                                        break;
+                                    }
+                                    case 7:
+                                        grafo.imprimeGrafo();
+                                        break;
+                                    case 8: {
+                                        long idInicio;
+                                        int tipoBusca;
+                                        cout << "Digite o ID inicial para o percurso: ";
+                                        cin >> idInicio;
+                                        cout << "1: Busca em Largura (BFS) | 2: Busca em Profundidade (DFS) -> Escolha: ";
+                                        cin >> tipoBusca;
+
+                                        if (tipoBusca == 1) {
+                                            grafo.buscaEmLargura(idInicio);
+                                        } else if (tipoBusca == 2) {
+                                            grafo.buscaEmProfundidade(idInicio);
+                                        } else {
+                                            cout << "Opcao de busca invalida." << endl;
+                                        }
+                                        break;
+                                    }
+                                    case 9:
+                                        break;
+                                    default:
+                                        cout << "Opcao invalida." << endl;
+                                }
+                            }
+                            break;
                         }
-                    } else if (opArv == 4) {
-                        cout << "\n--- ARVORE EM ORDEM ---" << endl;
-                        arvore.imprimeEmOrdem();
-                        cout << "-----------------------" << endl;
-                    } else if (opArv == 5) {
-                        cout << "\n--- ARVORE PRE-ORDEM ---" << endl;
-                        arvore.imprimePreOrdem();
-                        cout << "------------------------" << endl;
-                    } else if (opArv == 6) {
-                        cout << "\n--- ARVORE POS-ORDEM ---" << endl;
-                        arvore.imprimePosOrdem();
-                        cout << "------------------------" << endl;
-                    } else if (opArv != 7) {
-                        cout << "Opcao invalida." << endl;
+                        case 3:
+                            break;
+                        default:
+                            cout << "Opcao invalida." << endl;
                     }
                 }
                 break;
             }
+            
             case 5:
                 cout << "\nEncerrando o programa..." << endl;
                 break;
