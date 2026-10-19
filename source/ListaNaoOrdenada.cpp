@@ -14,50 +14,50 @@ ListaNaoOrdenada::~ListaNaoOrdenada() {
     delete[] elementos;
 }
 
-bool ListaNaoOrdenada::InserirNoInicio(Elemento* e) {
-    if (nElementos >= capacidade) return false;
+int ListaNaoOrdenada::InserirNoInicio(Elemento* e) {
+    if (nElementos >= capacidade) return 0;
     for (int i = nElementos; i > 0; i--) {
         elementos[i] = elementos[i - 1];
     }
     elementos[0] = e;
     nElementos++;
-    return true;
+    return 1;
 }
 
-bool ListaNaoOrdenada::InserirNoFinal(Elemento* e) {
-    if (nElementos >= capacidade) return false;
+int ListaNaoOrdenada::InserirNoFinal(Elemento* e) {
+    if (nElementos >= capacidade) return 0;
     elementos[nElementos] = e;
     nElementos++;
-    return true;
+    return 1;
 }
 
-bool ListaNaoOrdenada::RemoverPrimeiro() {
-    if (nElementos == 0) return false;
+int ListaNaoOrdenada::RemoverPrimeiro() {
+    if (nElementos == 0) return 0;
     delete elementos[0];
     for (int i = 0; i < nElementos - 1; i++) {
         elementos[i] = elementos[i + 1];
     }
     nElementos--;
-    return true;
+    return 1;
 }
 
-bool ListaNaoOrdenada::RemoverUltimo() {
-    if (nElementos == 0) return false;
+int ListaNaoOrdenada::RemoverUltimo() {
+    if (nElementos == 0) return 0;
     delete elementos[nElementos - 1];
     nElementos--;
-    return true;
+    return 1;
 }
 
-bool ListaNaoOrdenada::RemoverPeloId(long id) {
+int ListaNaoOrdenada::RemoverPeloId(long id) {
     for (int i = 0; i < nElementos; i++) {
         if (elementos[i]->getID() == id) {
             delete elementos[i];
             elementos[i] = elementos[nElementos - 1];
             nElementos--;
-            return true;
+            return 1;
         }
     }
-    return false;
+    return 0;
 }
 
 Elemento* ListaNaoOrdenada::BuscarPeloId(long id) const {
@@ -69,15 +69,15 @@ Elemento* ListaNaoOrdenada::BuscarPeloId(long id) const {
     return nullptr;
 }
 
-bool ListaNaoOrdenada::AlterarPeloId(long id, Elemento* novoElemento) {
+int ListaNaoOrdenada::AlterarPeloId(long id, Elemento* novoElemento) {
     for (int i = 0; i < nElementos; i++) {
         if (elementos[i]->getID() == id) {
             delete elementos[i];
             elementos[i] = novoElemento;
-            return true;
+            return 1;
         }
     }
-    return false;
+    return 0;
 }
 
 void ListaNaoOrdenada::imprimirTodos() const {
@@ -85,12 +85,14 @@ void ListaNaoOrdenada::imprimirTodos() const {
         elementos[i]->imprimirInfo();
     }
 }
-bool ListaNaoOrdenada::Vazia() const {
-    return nElementos == 0;
+int ListaNaoOrdenada::Vazia() const {
+    if (nElementos == 0) return 1;
+    return 0;
 }
 
-bool ListaNaoOrdenada::Cheia() const {
-    return nElementos >= capacidade;
+int ListaNaoOrdenada::Cheia() const {
+    if (nElementos >= capacidade) return 1;
+    return 0;
 }
 
 Elemento* ListaNaoOrdenada::ConsultarPrimeiro() const {

@@ -30,8 +30,8 @@ int ListaOrdenada::BuscaBinaria(long id) const {
     return -1;
 }
 
-bool ListaOrdenada::Inserir(Elemento* e) {
-    if (nElementos >= capacidade) return false;
+int ListaOrdenada::Inserir(Elemento* e) {
+    if (nElementos >= capacidade) return 0;
     
     int pos = 0;
     while (pos < nElementos && elementos[pos]->getID() < e->getID()) {
@@ -39,7 +39,7 @@ bool ListaOrdenada::Inserir(Elemento* e) {
     }
     
     if (pos < nElementos && elementos[pos]->getID() == e->getID()) {
-        return false; 
+        return 0; 
     }
     
     for (int i = nElementos; i > pos; i--) {
@@ -48,44 +48,44 @@ bool ListaOrdenada::Inserir(Elemento* e) {
     
     elementos[pos] = e;
     nElementos++;
-    return true;
+    return 1;
 }
 
-bool ListaOrdenada::InserirNoInicio(Elemento* e) {
+int ListaOrdenada::InserirNoInicio(Elemento* e) {
     return Inserir(e);
 }
 
-bool ListaOrdenada::InserirNoFinal(Elemento* e) {
+int ListaOrdenada::InserirNoFinal(Elemento* e) {
     return Inserir(e);
 }
 
-bool ListaOrdenada::RemoverPrimeiro() {
-    if (nElementos == 0) return false;
+int ListaOrdenada::RemoverPrimeiro() {
+    if (nElementos == 0) return 0;
     delete elementos[0];
     for (int i = 0; i < nElementos - 1; i++) {
         elementos[i] = elementos[i + 1];
     }
     nElementos--;
-    return true;
+    return 1;
 }
 
-bool ListaOrdenada::RemoverUltimo() {
-    if (nElementos == 0) return false;
+int ListaOrdenada::RemoverUltimo() {
+    if (nElementos == 0) return 0;
     delete elementos[nElementos - 1];
     nElementos--;
-    return true;
+    return 1;
 }
 
-bool ListaOrdenada::RemoverPeloId(long id) {
+int ListaOrdenada::RemoverPeloId(long id) {
     int pos = BuscaBinaria(id);
-    if (pos == -1) return false;
+    if (pos == -1) return 0;
     
     delete elementos[pos];
     for (int i = pos; i < nElementos - 1; i++) {
         elementos[i] = elementos[i + 1];
     }
     nElementos--;
-    return true;
+    return 1;
 }
 
 Elemento* ListaOrdenada::BuscarPeloId(long id) const {
@@ -96,11 +96,11 @@ Elemento* ListaOrdenada::BuscarPeloId(long id) const {
     return nullptr;
 }
 
-bool ListaOrdenada::AlterarPeloId(long id, Elemento* novoElemento) {
-    if (RemoverPeloId(id)) {
+int ListaOrdenada::AlterarPeloId(long id, Elemento* novoElemento) {
+    if (RemoverPeloId(id) == 1) {
         return Inserir(novoElemento);
     }
-    return false;
+    return 0;
 }
 
 void ListaOrdenada::imprimirTodos() const {

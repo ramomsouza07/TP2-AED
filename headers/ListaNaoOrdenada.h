@@ -13,16 +13,16 @@ public:
     ListaNaoOrdenada(int cap = 50);
     ~ListaNaoOrdenada();
 
-    bool InserirNoInicio(Elemento* e);
-    bool InserirNoFinal(Elemento* e);
-    bool RemoverPrimeiro();
-    bool RemoverUltimo();
-    bool RemoverPeloId(long id);
+    int InserirNoInicio(Elemento* e);
+    int InserirNoFinal(Elemento* e);
+    int RemoverPrimeiro();
+    int RemoverUltimo();
+    int RemoverPeloId(long id);
     Elemento* BuscarPeloId(long id) const;
-    bool AlterarPeloId(long id, Elemento* novoElemento);
+    int AlterarPeloId(long id, Elemento* novoElemento);
     void imprimirTodos() const;
-    bool Vazia() const;
-    bool Cheia() const;
+    int Vazia() const;
+    int Cheia() const;
     Elemento* ConsultarPrimeiro() const;
     Elemento* ConsultarUltimo() const;
 };

@@ -15,14 +15,14 @@ public:
     ListaOrdenada(int cap = 50);
     ~ListaOrdenada();
 
-    bool InserirNoInicio(Elemento* e);
-    bool InserirNoFinal(Elemento* e);
-    bool Inserir(Elemento* e); 
-    bool RemoverPrimeiro();
-    bool RemoverUltimo();
-    bool RemoverPeloId(long id);
+    int InserirNoInicio(Elemento* e);
+    int InserirNoFinal(Elemento* e);
+    int Inserir(Elemento* e); 
+    int RemoverPrimeiro();
+    int RemoverUltimo();
+    int RemoverPeloId(long id);
     Elemento* BuscarPeloId(long id) const;
-    bool AlterarPeloId(long id, Elemento* novoElemento);
+    int AlterarPeloId(long id, Elemento* novoElemento);
     void imprimirTodos() const;
 };
 
