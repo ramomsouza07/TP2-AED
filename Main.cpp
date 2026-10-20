@@ -329,10 +329,11 @@ int main() {
                             if (op == 1) ld.insereInicio(e);
                             else ld.insereFim(e);
                         } else {
-                            lc.insere(e);
+                            if (op == 1) lc.insereInicio(e);
+                            else lc.insereFim(e);
                         }
                         cout << "Inserido!" << endl;
-
+                        
                     } else if (op == 3) {
                         long id;
                         cout << "ID para remover: ";
@@ -599,6 +600,7 @@ int main() {
                     int qual, op = 0;
                     cout << "\nQual estrutura usar? (1: Pilha | 2: Fila | 3: Deque): ";
                     cin >> qual;
+                    if (qual < 1 || qual > 3) continue;
 
                     while (op != 4) {
                         cout << "\n1: Inserir | 2: Remover | 3: Imprimir | 4: Voltar\nOpcao: ";
@@ -644,7 +646,11 @@ int main() {
                                 else r = dq.removerFim();
                             }
 
-                            if (r != NULL) cout << "Removido!" << endl;
+                            if (r != NULL) {
+                                cout << "Removido: ";
+                                r->imprimirInfo();
+                                delete r;
+                            }
                             else cout << "Estrutura vazia." << endl;
 
                         } else if (op == 3) {
