@@ -6,6 +6,7 @@ Equipamento::Equipamento(long id, std::string n, int dano) : Elemento(id) {
     danoBase = dano;
 }
 
+//imprime  infos do equipamento
 void Equipamento::imprimirInfo() const {
     std::cout << "[Equipamento] ID: " << getID() << " | Item: " << nomeItem << " | Dano: " << danoBase << std::endl;
 }

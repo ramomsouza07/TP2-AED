@@ -7,6 +7,7 @@ ListaOrdenada::ListaOrdenada(int cap) {
     elementos = new Elemento*[capacidade];
 }
 
+//limpa a memoria
 ListaOrdenada::~ListaOrdenada() {
     for (int i = 0; i < nElementos; i++) {
         delete elementos[i];
@@ -14,6 +15,7 @@ ListaOrdenada::~ListaOrdenada() {
     delete[] elementos;
 }
 
+// complexidade O(log n) - divide na metade ate achar
 int ListaOrdenada::BuscaBinaria(long id) const {
     int ini = 0;
     int fim = nElementos - 1;
@@ -30,6 +32,7 @@ int ListaOrdenada::BuscaBinaria(long id) const {
     return -1;
 }
 
+// complexidade O(n) - acha a posicao certa e desloca os maiores pra frente
 int ListaOrdenada::Inserir(Elemento* e) {
     if (nElementos >= capacidade) return 0;
     
@@ -38,6 +41,7 @@ int ListaOrdenada::Inserir(Elemento* e) {
         pos++;
     }
     
+    // nao deixa inserir id repetido
     if (pos < nElementos && elementos[pos]->getID() == e->getID()) {
         return 0; 
     }
@@ -51,14 +55,17 @@ int ListaOrdenada::Inserir(Elemento* e) {
     return 1;
 }
 
+// complexidade O(n) - chama o inserir normal pq precisa manter ordenado
 int ListaOrdenada::InserirNoInicio(Elemento* e) {
     return Inserir(e);
 }
 
+//complexidade O(n)
 int ListaOrdenada::InserirNoFinal(Elemento* e) {
     return Inserir(e);
 }
 
+// complexidade O(n) - remove o primeiro e puxa o resto
 int ListaOrdenada::RemoverPrimeiro() {
     if (nElementos == 0) return 0;
     delete elementos[0];
@@ -69,6 +76,7 @@ int ListaOrdenada::RemoverPrimeiro() {
     return 1;
 }
 
+// complexidade  O(1) - remove direto do final
 int ListaOrdenada::RemoverUltimo() {
     if (nElementos == 0) return 0;
     delete elementos[nElementos - 1];
@@ -76,6 +84,7 @@ int ListaOrdenada::RemoverUltimo() {
     return 1;
 }
 
+// complexidade O(n) - acha com busca binaria mas tem q deslocar o vetor
 int ListaOrdenada::RemoverPeloId(long id) {
     int pos = BuscaBinaria(id);
     if (pos == -1) return 0;
@@ -88,6 +97,7 @@ int ListaOrdenada::RemoverPeloId(long id) {
     return 1;
 }
 
+//complexidade O(log n) - usa a busca binaria
 Elemento* ListaOrdenada::BuscarPeloId(long id) const {
     int pos = BuscaBinaria(id);
     if (pos != -1) {
@@ -96,6 +106,7 @@ Elemento* ListaOrdenada::BuscarPeloId(long id) const {
     return nullptr;
 }
 
+//complexidade O(n) - remove o antigo e insere o novo na posicao ordenada
 int ListaOrdenada::AlterarPeloId(long id, Elemento* novoElemento) {
     if (RemoverPeloId(id) == 1) {
         return Inserir(novoElemento);
@@ -103,6 +114,7 @@ int ListaOrdenada::AlterarPeloId(long id, Elemento* novoElemento) {
     return 0;
 }
 
+// complexidade O(n)
 void ListaOrdenada::imprimirTodos() const {
     for (int i = 0; i < nElementos; i++) {
         elementos[i]->imprimirInfo();

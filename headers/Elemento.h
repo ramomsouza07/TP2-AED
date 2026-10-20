@@ -1,6 +1,7 @@
 #ifndef ELEMENTO_H
 #define ELEMENTO_H
 
+// classe base pros elementos
 class Elemento {
 protected:
     long ID;

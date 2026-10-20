@@ -7,7 +7,7 @@
 class Equipamento : public Elemento {
 private:
     std::string nomeItem;
-    int danoBase;
+    int danoBase; // atributo especifico de equipamento
 
 public:
     Equipamento(long id, std::string n, int dano);

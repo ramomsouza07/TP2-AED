@@ -21,6 +21,7 @@ using namespace std;
 int main() {
     int opcaoPrincipal = 0;
 
+    // loop do menu principal
     while (opcaoPrincipal != 5) {
         cout << "\n================ MENU ================" << endl;
         cout << "1: Operar em Listas Sequenciais" << endl;
@@ -67,7 +68,7 @@ int main() {
                             long id;
                             cout << "ID: ";
                             cin >> id;
-                            cin.ignore();
+                            cin.ignore(); // limpa o enter antes do getline
 
                             Elemento* e = NULL;
                             if (tipo == 1) {

@@ -3,9 +3,10 @@
 
 #include "Elemento.h"
 
+//Lista sequencial nao ordenada
 class ListaNaoOrdenada {
 private:
-    Elemento** elementos;
+    Elemento** elementos; // vetor de ponteiros
     int capacidade;
     int nElementos;
 

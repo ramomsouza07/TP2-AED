@@ -3,13 +3,14 @@
 
 #include "Elemento.h"
 
+// Lista sequencial ordenada pelo id
 class ListaOrdenada {
 private:
     Elemento** elementos;
     int capacidade;
     int nElementos;
 
-    int BuscaBinaria(long id) const;
+    int BuscaBinaria(long id) const; // auxiliar pra achar rapido
 
 public:
     ListaOrdenada(int cap = 50);

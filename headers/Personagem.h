@@ -4,6 +4,7 @@
 #include "Elemento.h"
 #include <string>
 
+// herda de elemento
 class Personagem : public Elemento {
 private:
     std::string nome;
