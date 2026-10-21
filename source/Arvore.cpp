@@ -28,7 +28,7 @@ Arvore::No* Arvore::insereRec(No* no, Elemento* e) {
         no->esq = insereRec(no->esq, e);
     } else if(e->getID() > no->info->getID()) {
         no->dir = insereRec(no->dir, e);
-    }
+    }   
     return no;
 }
 

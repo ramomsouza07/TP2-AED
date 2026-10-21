@@ -6,6 +6,7 @@
 
 class Pilha {
 private:
+    // [POO - Composicao e Encapsulamento]: usa uma ListaNaoOrdenada privada como base
     ListaNaoOrdenada lista;
 
 public:
