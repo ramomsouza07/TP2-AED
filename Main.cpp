@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
+// Classes POO do tema (Personagem e Equipamento herdam da classe abstrata Elemento)
 #include "headers/Personagem.h"
 #include "headers/Equipamento.h"
+// Estruturas de Dados
 #include "headers/ListaNaoOrdenada.h"
 #include "headers/ListaOrdenada.h"
 #include "headers/Pilha.h"
@@ -32,6 +34,7 @@ int main() {
         cout << "Escolha uma opcao: ";
         cin >> opcaoPrincipal;
 
+        // 1: Listas Sequenciais (alocacao estatica com vetor)
         if (opcaoPrincipal == 1) {
             int opcaoSeq = 0;
             while (opcaoSeq != 3) {
@@ -42,7 +45,9 @@ int main() {
                 cout << "Opcao: ";
                 cin >> opcaoSeq;
 
+                // Lista Sequencial Nao Ordenada
                 if (opcaoSeq == 1) {
+                    // [POO - Encapsulamento]: o vetor interno e privado, acessamos so pelos metodos publicos
                     ListaNaoOrdenada lista(50);
                     int opLista = 0;
 
@@ -60,6 +65,7 @@ int main() {
                         cout << "Opcao: ";
                         cin >> opLista;
 
+                        // insercao no inicio ou no final
                         if (opLista == 1 || opLista == 2) {
                             int tipo;
                             cout << "1: Personagem | 2: Equipamento: ";
@@ -70,6 +76,8 @@ int main() {
                             cin >> id;
                             cin.ignore(); // limpa o enter antes do getline
 
+                            // [POO - Abstracao e Polimorfismo]: ponteiro da classe abstrata Elemento*
+                            // recebe objetos das classes filhas Personagem ou Equipamento (upcasting)
                             Elemento* e = NULL;
                             if (tipo == 1) {
                                 string nome;
@@ -78,7 +86,7 @@ int main() {
                                 getline(cin, nome);
                                 cout << "Nivel: ";
                                 cin >> nivel;
-                                e = new Personagem(id, nome, nivel);
+                                e = new Personagem(id, nome, nivel); // [POO - Heranca]: Personagem herda de Elemento
                             } else if (tipo == 2) {
                                 string nomeItem;
                                 int dano;
@@ -86,7 +94,7 @@ int main() {
                                 getline(cin, nomeItem);
                                 cout << "Dano: ";
                                 cin >> dano;
-                                e = new Equipamento(id, nomeItem, dano);
+                                e = new Equipamento(id, nomeItem, dano); // [POO - Heranca]: Equipamento herda de Elemento
                             } else {
                                 cout << "Tipo invalido!" << endl;
                                 continue;
@@ -99,6 +107,7 @@ int main() {
                             if (deuCerto == 1) cout << "Inserido!" << endl;
                             else cout << "Erro: lista cheia." << endl;
 
+                        // remocoes nas pontas e pelo ID
                         } else if (opLista == 3) {
                             if (lista.RemoverPrimeiro() == 1) cout << "Primeiro removido!" << endl;
                             else cout << "Lista vazia." << endl;
@@ -114,14 +123,17 @@ int main() {
                             if (lista.RemoverPeloId(id) == 1) cout << "Removido!" << endl;
                             else cout << "ID nao encontrado." << endl;
 
+                        // busca sequencial pelo ID
                         } else if (opLista == 6) {
                             long id;
                             cout << "ID para buscar: ";
                             cin >> id;
                             Elemento* achou = lista.BuscarPeloId(id);
+                            // [POO - Polimorfismo]: chama em tempo de execucao o imprimirInfo() de Personagem ou Equipamento
                             if (achou != NULL) achou->imprimirInfo();
                             else cout << "ID nao encontrado." << endl;
 
+                        // substitui um elemento existente por um novo a partir do ID
                         } else if (opLista == 7) {
                             long idAntigo;
                             cout << "ID do elemento que deseja alterar: ";
@@ -164,6 +176,7 @@ int main() {
                             lista.imprimirTodos();
                         }
                     }
+                // Lista Sequencial Ordenada (mantem os IDs em ordem crescente)
                 } else if (opcaoSeq == 2) {
                     ListaOrdenada listaOrd(50);
                     int opLista = 0;
@@ -181,6 +194,7 @@ int main() {
                         cout << "Opcao: ";
                         cin >> opLista;
 
+                        // insere ja na posicao ordenada pelo ID (nao aceita ID repetido)
                         if (opLista == 1) {
                             int tipo;
                             cout << "1: Personagem | 2: Equipamento: ";
@@ -231,6 +245,7 @@ int main() {
                             if (listaOrd.RemoverPeloId(idBusca) == 1) cout << "Removido!" << endl;
                             else cout << "ID nao encontrado." << endl;
 
+                        // busca pelo ID usando busca binaria O(log n)
                         } else if (opLista == 5) {
                             long idBusca;
                             cout << "ID para buscar: ";
@@ -239,6 +254,7 @@ int main() {
                             if (achou != NULL) achou->imprimirInfo();
                             else cout << "ID nao encontrado." << endl;
 
+                        // remove o antigo e reinsere o novo mantendo a ordenacao
                         } else if (opLista == 6) {
                             long idAntigo;
                             cout << "ID do elemento que deseja alterar: ";
@@ -283,6 +299,7 @@ int main() {
                     }
                 }
             }
+        // 2: Listas de Alocacao Dinamica (Simples, Dupla e Circular)
         } else if (opcaoPrincipal == 2) {
             int opDin = 0;
             while (opDin != 4) {
@@ -291,6 +308,7 @@ int main() {
                 cin >> opDin;
                 if (opDin < 1 || opDin > 3) break;
 
+                // instancia as tres listas encadeadas
                 ListaSimples ls;
                 ListaDupla ld;
                 ListaCircular lc;
@@ -300,6 +318,7 @@ int main() {
                     cout << "\n1: Inserir Inicio | 2: Inserir Fim | 3: Remover ID | 4: Buscar ID | 5: Imprimir | 6: Voltar\nOpcao: ";
                     cin >> op;
 
+                    // insercao no inicio ou no fim da lista escolhida
                     if (op == 1 || op == 2) {
                         int tipo;
                         cout << "1: Personagem | 2: Equipamento: ";
@@ -322,6 +341,7 @@ int main() {
                             e = new Equipamento(id, nome, dano);
                         } else continue;
 
+                        // direciona para a lista escolhida (1: Simples, 2: Dupla, 3: Circular)
                         if (opDin == 1) {
                             if (op == 1) ls.insereInicio(e);
                             else ls.insereFim(e);
@@ -334,6 +354,7 @@ int main() {
                         }
                         cout << "Inserido!" << endl;
                         
+                    // remocao pelo ID
                     } else if (op == 3) {
                         long id;
                         cout << "ID para remover: ";
@@ -346,6 +367,7 @@ int main() {
                         if (ok) cout << "Removido!" << endl;
                         else cout << "ID nao encontrado." << endl;
 
+                    // busca pelo ID
                     } else if (op == 4) {
                         long id;
                         cout << "ID para buscar: ";
@@ -365,6 +387,7 @@ int main() {
                     }
                 }
             }
+        // 3: Pilhas, Filas e Deques ([POO - Composicao]: usam uma lista privada internamente)
         } else if (opcaoPrincipal == 3) {
             int opcaoPFD = 0;
             while (opcaoPFD != 5) {
@@ -377,6 +400,7 @@ int main() {
                 cout << "Opcao: ";
                 cin >> opcaoPFD;
 
+                // Pilha Sequencial ([POO - Composicao] com ListaNaoOrdenada | LIFO em O(1))
                 if (opcaoPFD == 1) {
                     Pilha pilha(50);
                     int opPilha = 0;
@@ -449,6 +473,7 @@ int main() {
                             else cout << "A pilha nao esta vazia." << endl;
                         }
                     }
+                // Fila Sequencial comum (FIFO: desenfileirar desloca o vetor em O(n))
                 } else if (opcaoPFD == 2) {
                     Fila fila(50);
                     int opFila = 0;
@@ -521,6 +546,7 @@ int main() {
                             else cout << "A fila nao esta vazia." << endl;
                         }
                     }
+                // Fila Circular (FIFO eficiente: usa operador % para inserir e remover em O(1))
                 } else if (opcaoPFD == 3) {
                     FilaCircular filaCirc(50);
                     int opFilaCirc = 0;
@@ -593,6 +619,7 @@ int main() {
                             else cout << "A fila circular nao esta vazia." << endl;
                         }
                     }
+                // Pilha, Fila e Deque Encadeados ([POO - Composicao] com ListaSimples e ListaDupla)
                 } else if (opcaoPFD == 4) {
                     PilhaEnc pe;
                     FilaEnc fe;
@@ -623,6 +650,7 @@ int main() {
                             if (tipo == 1) e = new Personagem(id, nome, valor);
                             else e = new Equipamento(id, nome, valor);
 
+                            // no Deque o usuario escolhe em qual ponta inserir
                             if (qual == 1) pe.empilhar(e);
                             else if (qual == 2) fe.enfileirar(e);
                             else {
@@ -636,6 +664,7 @@ int main() {
 
                         } else if (op == 2) {
                             Elemento* r = NULL;
+                            // no Deque o usuario escolhe de qual ponta remover
                             if (qual == 1) r = pe.desempilhar();
                             else if (qual == 2) r = fe.desenfileirar();
                             else {
@@ -649,7 +678,7 @@ int main() {
                             if (r != NULL) {
                                 cout << "Removido: ";
                                 r->imprimirInfo();
-                                delete r;
+                                delete r; // libera o elemento removido da memoria
                             }
                             else cout << "Estrutura vazia." << endl;
 
@@ -661,6 +690,7 @@ int main() {
                     }
                 }
             }
+        // 4: Estruturas Nao-Lineares (Arvore Binaria de Busca e Grafo)
         } else if (opcaoPrincipal == 4) {
             int opcaoAG = 0;
             Arvore arvore;
@@ -674,6 +704,7 @@ int main() {
                 cout << "Opcao: ";
                 cin >> opcaoAG;
 
+                // Arvore Binaria de Busca (ABB: menores a esquerda, maiores a direita)
                 if (opcaoAG == 1) {
                     int opArvore = 0;
                     while (opArvore != 7) {
@@ -738,14 +769,16 @@ int main() {
                             if (achou != NULL) achou->imprimirInfo();
                             else cout << "ID nao encontrado." << endl;
 
+                        // percursos classicos da Arvore Binaria
                         } else if (opArvore == 4) {
-                            arvore.imprimeEmOrdem();
+                            arvore.imprimeEmOrdem(); // imprime os IDs em ordem crescente
                         } else if (opArvore == 5) {
                             arvore.imprimePreOrdem();
                         } else if (opArvore == 6) {
                             arvore.imprimePosOrdem();
                         }
                     }
+                // Grafo Ponderado com Lista de Adjacencia
                 } else if (opcaoAG == 2) {
                     int opGrafo = 0;
                     while (opGrafo != 9) {
@@ -762,6 +795,7 @@ int main() {
                         cout << "Opcao: ";
                         cin >> opGrafo;
 
+                        // cadastra um novo vertice (Personagem ou Equipamento) no grafo
                         if (opGrafo == 1) {
                             int tipo;
                             cout << "1: Personagem | 2: Equipamento: ";
@@ -797,6 +831,7 @@ int main() {
                             } else {
                                 cout << "Tipo invalido!" << endl;
                             }
+                        // conecta dois vertices existentes com uma aresta ponderada (peso)
                         } else if (opGrafo == 2) {
                             long idOrig, idDest;
                             int peso;
@@ -844,6 +879,7 @@ int main() {
                         } else if (opGrafo == 7) {
                             grafo.imprimeGrafo();
 
+                        // percursos em Largura (BFS com fila) e Profundidade (DFS recursivo)
                         } else if (opGrafo == 8) {
                             long idInicio;
                             int tipoBusca;
