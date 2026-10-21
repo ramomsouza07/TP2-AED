@@ -1,9 +1,11 @@
 #include "../headers/Arvore.h"
 
+// destrutor: limpa todos os nos da arvore automaticamente quando o objeto sai de escopo
 Arvore::~Arvore() {
     destroiRec(raiz);
 }
 
+// libera os nos recursivamente em pos-ordem (primeiro filhos, depois o proprio no)
 void Arvore::destroiRec(No* no) {
     if(no != NULL) {
         destroiRec(no->esq);
@@ -12,11 +14,14 @@ void Arvore::destroiRec(No* no) {
     }
 }
 
+// [POO - Abstracao]: metodo publico que inicia a insercao a partir da raiz privada
 void Arvore::insere(Elemento* e) {
     raiz = insereRec(raiz, e);
 }
 
+// insere recursivamente mantendo a regra da ABB: IDs menores na esquerda, maiores na direita
 Arvore::No* Arvore::insereRec(No* no, Elemento* e) {
+    // achou uma posicao vazia: aloca e retorna o novo no
     if(no == NULL) {
         No* novo = new No();
         novo->info = e;
@@ -24,6 +29,7 @@ Arvore::No* Arvore::insereRec(No* no, Elemento* e) {
         novo->dir = NULL;
         return novo;
     }
+    // compara os IDs atraves do metodo getID() herdado da classe base Elemento
     if(e->getID() < no->info->getID()) {
         no->esq = insereRec(no->esq, e);
     } else if(e->getID() > no->info->getID()) {
@@ -32,17 +38,20 @@ Arvore::No* Arvore::insereRec(No* no, Elemento* e) {
     return no;
 }
 
+// metodo publico de busca pelo ID
 Elemento* Arvore::busca(long id) const {
     return buscaRec(raiz, id);
 }
 
+// busca recursiva em O(log n) no caso medio: descarta metade da arvore a cada comparacao
 Elemento* Arvore::buscaRec(No* no, long id) const {
-    if(no == NULL) return NULL;
-    if(id == no->info->getID()) return no->info;
-    if(id < no->info->getID()) return buscaRec(no->esq, id);
-    return buscaRec(no->dir, id);
+    if(no == NULL) return NULL; // chegou em folha nula, nao achou
+    if(id == no->info->getID()) return no->info; // achou o elemento
+    if(id < no->info->getID()) return buscaRec(no->esq, id); // procura na esquerda
+    return buscaRec(no->dir, id); // procura na direita
 }
 
+// encontra o no com menor ID de uma subarvore (anda sempre para a esquerda)
 Arvore::No* Arvore::encontraMenor(No* no) {
     No* atual = no;
     while(atual != NULL && atual->esq != NULL) {
@@ -51,15 +60,18 @@ Arvore::No* Arvore::encontraMenor(No* no) {
     return atual;
 }
 
+// metodo publico que remove um elemento pelo ID e retorna se foi removido
 bool Arvore::remove(long id) {
     bool removido = false;
     raiz = removeRec(raiz, id, removido);
     return removido;
 }
 
+// remove recursivamente tratando os 3 casos possiveis da ABB
 Arvore::No* Arvore::removeRec(No* no, long id, bool &removido) {
     if(no == NULL) return NULL;
 
+    // navega pela arvore ate achar o ID
     if(id < no->info->getID()) {
         no->esq = removeRec(no->esq, id, removido);
     } else if(id > no->info->getID()) {
@@ -85,6 +97,7 @@ Arvore::No* Arvore::removeRec(No* no, long id, bool &removido) {
     return no;
 }
 
+// percurso Em-Ordem (esquerda, raiz, direita): exibe os elementos com ID em ordem crescente
 void Arvore::imprimeEmOrdem() const {
     emOrdem(raiz);
 }
@@ -92,23 +105,26 @@ void Arvore::imprimeEmOrdem() const {
 void Arvore::emOrdem(No* no) const {
     if(no != NULL) {
         emOrdem(no->esq);
+        // [POO - Polimorfismo]: chama o imprimirInfo() especifico de Personagem ou Equipamento
         no->info->imprimirInfo();
         emOrdem(no->dir);
     }
 }
 
+// percurso Pre-Ordem (raiz, esquerda, direita): visita a raiz antes das subarvores
 void Arvore::imprimePreOrdem() const {
     preOrdem(raiz);
 }
 
 void Arvore::preOrdem(No* no) const {
     if(no != NULL) {
-        no->info->imprimirInfo();
+        no->info->imprimirInfo(); // [POO - Polimorfismo]
         preOrdem(no->esq);
         preOrdem(no->dir);
     }
 }
 
+// percurso Pos-Ordem (esquerda, direita, raiz): visita as subarvores antes da raiz
 void Arvore::imprimePosOrdem() const {
     posOrdem(raiz);
 }
@@ -117,7 +133,7 @@ void Arvore::posOrdem(No* no) const {
     if(no != NULL) {
         posOrdem(no->esq);
         posOrdem(no->dir);
-        no->info->imprimirInfo();
+        no->info->imprimirInfo(); // [POO - Polimorfismo]
     }
 }
 
