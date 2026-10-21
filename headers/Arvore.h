@@ -7,10 +7,11 @@ using namespace std;
 
 class Arvore {
 private:
-    struct No {
-        Elemento* info;
-        No* esq;
-        No* dir;
+    class No {
+        public:
+            Elemento* info;
+            No* esq;
+            No* dir;
     };
     No* raiz;
 
