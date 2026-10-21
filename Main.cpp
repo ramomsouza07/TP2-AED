@@ -778,20 +778,22 @@ int main() {
                             arvore.imprimePosOrdem();
                         }
                     }
-                // Grafo Ponderado com Lista de Adjacencia
+                // Grafo Ponderado com Dupla Representacao (Lista de Adjacencia + Matriz de Adjacencia)
                 } else if (opcaoAG == 2) {
                     int opGrafo = 0;
-                    while (opGrafo != 9) {
+                    while (opGrafo != 11) {
                         cout << "\n[Grafo]" << endl;
                         cout << "1: Inserir Vertice" << endl;
                         cout << "2: Inserir Aresta" << endl;
                         cout << "3: Remover Aresta" << endl;
                         cout << "4: Remover Vertice" << endl;
                         cout << "5: Buscar Vertice" << endl;
-                        cout << "6: Imprimir Vizinhos" << endl;
-                        cout << "7: Imprimir Grafo" << endl;
-                        cout << "8: Percorrer Grafo (BFS / DFS)" << endl;
-                        cout << "9: Voltar" << endl;
+                        cout << "6: Verificar se dois Vertices sao Vizinhos" << endl;
+                        cout << "7: Obter Grau de um Vertice" << endl;
+                        cout << "8: Imprimir Vizinhos" << endl;
+                        cout << "9: Imprimir Grafo (Lista e Matriz de Adjacencia)" << endl;
+                        cout << "10: Percorrer Grafo (BFS / DFS)" << endl;
+                        cout << "11: Voltar" << endl;
                         cout << "Opcao: ";
                         cin >> opGrafo;
 
@@ -815,8 +817,12 @@ int main() {
                                 cin >> nivel;
 
                                 Personagem* p = new Personagem(id, nome, nivel);
-                                if (grafo.insereVertice(p)) cout << "Vertice inserido!" << endl;
-                                else cout << "Erro: ID ja existe." << endl;
+                                if (grafo.insereVertice(p)) {
+                                    cout << "Vertice inserido!" << endl;
+                                } else {
+                                    delete p; // Libera memoria para evitar memory leak caso ID ja exista
+                                    cout << "Erro: ID ja existe." << endl;
+                                }
                             } else if (tipo == 2) {
                                 string nomeItem;
                                 int dano;
@@ -826,8 +832,12 @@ int main() {
                                 cin >> dano;
 
                                 Equipamento* eq = new Equipamento(id, nomeItem, dano);
-                                if (grafo.insereVertice(eq)) cout << "Vertice inserido!" << endl;
-                                else cout << "Erro: ID ja existe." << endl;
+                                if (grafo.insereVertice(eq)) {
+                                    cout << "Vertice inserido!" << endl;
+                                } else {
+                                    delete eq; // Libera memoria para evitar memory leak caso ID ja exista
+                                    cout << "Erro: ID ja existe." << endl;
+                                }
                             } else {
                                 cout << "Tipo invalido!" << endl;
                             }
@@ -870,17 +880,43 @@ int main() {
                             if (elem != NULL) elem->imprimirInfo();
                             else cout << "ID nao encontrado." << endl;
 
+                        // verifica se dois vertices possuem aresta direta
                         } else if (opGrafo == 6) {
+                            long id1, id2;
+                            cout << "ID do primeiro vertice: ";
+                            cin >> id1;
+                            cout << "ID do segundo vertice: ";
+                            cin >> id2;
+                            if (grafo.saoVizinhos(id1, id2)) {
+                                cout << "Os vertices " << id1 << " e " << id2 << " SAO vizinhos (possuem aresta entre si)!" << endl;
+                            } else {
+                                cout << "Os vertices " << id1 << " e " << id2 << " NAO sao vizinhos (ou algum deles nao existe)." << endl;
+                            }
+
+                        // calcula e exibe o grau do vertice
+                        } else if (opGrafo == 7) {
+                            long id;
+                            cout << "ID do vertice: ";
+                            cin >> id;
+                            int grau = grafo.obterGrau(id);
+                            if (grau != -1) {
+                                cout << "O grau do vertice " << id << " e: " << grau << endl;
+                            } else {
+                                cout << "Erro: Vertice com ID " << id << " nao encontrado no grafo." << endl;
+                            }
+
+                        } else if (opGrafo == 8) {
                             long id;
                             cout << "ID do vertice: ";
                             cin >> id;
                             grafo.imprimeVizinhos(id);
 
-                        } else if (opGrafo == 7) {
+                        // imprime tanto a lista de adjacencia quanto a matriz de adjacencia
+                        } else if (opGrafo == 9) {
                             grafo.imprimeGrafo();
 
                         // percursos em Largura (BFS com fila) e Profundidade (DFS recursivo)
-                        } else if (opGrafo == 8) {
+                        } else if (opGrafo == 10) {
                             long idInicio;
                             int tipoBusca;
                             cout << "ID inicial: ";
